@@ -20,7 +20,7 @@ pipeline {
             steps {
                 retry(5) {
                     //sleep time: 1, unit: 'SECONDS'
-                    sh 'wget -0- $(hostname):5000'
+                    sh 'wget -O- $(hostname):5000'
                 }
             }
         }
