@@ -4,6 +4,7 @@ pipeline {
         label 'node01'
      } 
   }
+  options { timestamps () }
   tools {
     maven 'maven-apache-3.8.4'
   }
