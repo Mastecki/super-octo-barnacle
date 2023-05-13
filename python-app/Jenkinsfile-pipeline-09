@@ -16,13 +16,13 @@ pipeline {
                 }
             }
         }
-        post {
-            success {
-                archiveArtifacts artifacts: 'python-app/python-app.image'
-            }
-            cleanup {
-                cleanWs()
-            }
+    }
+    post {
+        success {
+            archiveArtifacts artifacts: 'python-app/python-app.image'
+        }
+        cleanup {
+            cleanWs()
         }
     }
 }
