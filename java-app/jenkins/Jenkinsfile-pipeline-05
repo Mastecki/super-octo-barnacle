@@ -30,6 +30,12 @@ pipeline {
       dir('java-app'){
         step($class: 'JUnitResultArchiver', checksName: '', testResults: '**/surefire-reports/TEST-*.xml')
         step(followSymlinks: false, $class: 'ArtifactArchiver', artifacts: 'target/*.jar')
+      cleanWs(cleanWhenNotBuilt: false,
+        deleteDirs: true,
+        disableDeferredWipeout: true,
+        notFailBuild: true,
+        patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                   [pattern: '.propsfile', type: 'EXCLUDE']])
       }
     }
   }
