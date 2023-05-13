@@ -33,7 +33,7 @@ pipeline {
     }
     stage('Validation') {
       steps {
-        input: 'Is it working properly?'
+        input 'Is it working properly?'
       }
     }
     stage('Deploy') {
