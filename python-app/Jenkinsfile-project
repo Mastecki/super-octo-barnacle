@@ -27,7 +27,9 @@ pipeline {
         }
         stage('Build and push') {
             agent {
-                label 'node01'
+                node { 
+                    label 'node01'
+                }
             }
             steps {
                 dir('python-app/') {
