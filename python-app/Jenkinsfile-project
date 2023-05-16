@@ -13,7 +13,56 @@ pipeline {
         stage('Run') {
             steps {
                 dir('python-app/') {
-                    sh 'apt install python3-pip'
+                    sh 'pipeline {
+    agent {
+        node { 
+            label 'node01'
+        }
+    }
+    environment { 
+        HOME = "${WORKSPACE}/python-app"
+        REGISTRY_NAME = "<your_registry>"
+		DOCKERHUB_CREDENTIALS='<your_credentials_id>'
+        }
+    stages {
+        stage('Run') {
+            steps {
+                dir('python-app/') {
+                    sh 'sudo apt install python3-pip'
+                    sh 'pip install -r requirements.txt'
+                    sh 'python3 -m flask run --host=0.0.0.0 &'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                retry(5) {
+                    sh 'wget -O- $(hostname):5000'
+                }
+            }
+        }
+/*
+        stage('Build and push') {
+            steps {
+                dir('python-app/') {
+                    script {
+                        dockerImage = docker.build REGISTRY_NAME + ":$BUILD_NUMBER"
+                        docker.withRegistry('', DOCKERHUB_CREDENTIALS) {
+                            dockerImage.push()
+                        }
+                    }
+                }
+            }
+        }
+*/
+    }
+    post {
+        cleanup {
+            cleanWs()
+        }
+    }
+}
+apt install python3-pip'
                     sh 'pip install -r requirements.txt'
                     sh 'python3 -m flask run --host=0.0.0.0 &'
                 }
