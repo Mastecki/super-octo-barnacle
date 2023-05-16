@@ -25,15 +25,6 @@ pipeline {
                 }
             }
         }
-    }
-/*
-        stage('Test') {
-            steps {
-                retry(5) {
-                    sh 'wget -O- $(hostname):5000'
-                }
-            }
-        }
         stage('Build and push') {
             steps {
                 dir('python-app/') {
@@ -47,7 +38,6 @@ pipeline {
             }
         }
     }
-*/
     post {
         cleanup {
             cleanWs()
