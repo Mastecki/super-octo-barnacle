@@ -8,18 +8,24 @@ pipeline {
     }
     environment { 
         HOME = "${WORKSPACE}/python-app"
-        REGISTRY_NAME = "<your_registry>"
-		DOCKERHUB_CREDENTIALS='<your_credentials_id>'
+        REGISTRY_NAME = "mastecki/project-cicd"
+		DOCKERHUB_CREDENTIALS='dockerhub'
         }
     stages {
-        stage('Run') {
+        stage('Testing') {
             steps {
                 dir('python-app/') {
                     sh 'pip install -r requirements.txt'
-                    sh 'python3 -m flask run --host=0.0.0.0 &'
+                    sh 'pytest . --junit-xml=pytest_junit.xml'
+                }
+            }
+            post {
+                always {
+                    junit '**/*pytest_junit.xml'
                 }
             }
         }
+/*
         stage('Test') {
             steps {
                 retry(5) {
@@ -27,7 +33,6 @@ pipeline {
                 }
             }
         }
-/*
         stage('Build and push') {
             steps {
                 dir('python-app/') {
@@ -40,6 +45,7 @@ pipeline {
                 }
             }
         }
+    }
 */
     }
     post {
