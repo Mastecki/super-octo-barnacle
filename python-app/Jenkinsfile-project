@@ -45,13 +45,15 @@ pipeline {
         }
     }
     post {
-        agent {
-            node { 
-                label 'node01'
+        always {
+            agent {
+                node { 
+                    label 'node01'
+                }
             }
-        }
-        cleanup {
-            cleanWs()
+            cleanup {
+                cleanWs()
+            }
         }
     }
 }
