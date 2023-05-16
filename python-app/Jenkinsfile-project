@@ -15,6 +15,7 @@ pipeline {
         stage('Testing') {
             steps {
                 dir('python-app/') {
+                    sh 'pip install -U pytest'
                     sh 'pip install -r requirements.txt'
                     sh 'pytest . --junit-xml=pytest_junit.xml'
                 }
