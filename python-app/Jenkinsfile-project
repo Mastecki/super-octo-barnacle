@@ -36,7 +36,7 @@ pipeline {
                 dir('python-app/') {
                     script {
                         dockerImage = docker.build REGISTRY_NAME + ":$BUILD_NUMBER"
-                        docker.withRegistry('https://hub.docker.com/repository/docker/mastecki/project-cicd/general', DOCKERHUB_CREDENTIALS) {
+                        docker.withRegistry('https://registry.hub.docker.com', DOCKERHUB_CREDENTIALS) {
                             dockerImage.push()
                         }
                     }
