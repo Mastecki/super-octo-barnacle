@@ -1,6 +1,8 @@
 pipeline {
     agent {
-        node { 
+        docker {
+            image 'python'
+            args '-v /root/.m2:/root/.m2'
             label 'node01'
         }
     }
@@ -13,7 +15,6 @@ pipeline {
         stage('Run') {
             steps {
                 dir('python-app/') {
-                    sh 'sudo apt install python3-pip'
                     sh 'pip install -r requirements.txt'
                     sh 'python3 -m flask run --host=0.0.0.0 &'
                 }
